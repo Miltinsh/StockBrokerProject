@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Windows.Input;
 using StockBrokerProject.Models;
@@ -23,19 +23,26 @@ namespace StockBrokerProject.ViewModels
             }
         }
 
+        public DashboardViewModel DashboardVM { get; }
         public OverviewViewModel OverviewVM { get; }
+        
+        public ICommand ShowDashboardCommand { get; }
         public ICommand ShowOverviewCommand { get; }
         public ICommand ShowStockInfoCommand { get; }
 
         // Properties for active state tracking
-        public bool IsDashboardActive => CurrentViewModel is OverviewViewModel;
-        public bool IsMarketsActive => CurrentViewModel is StockInfoViewModel;
+        public bool IsDashboardActive => CurrentViewModel is DashboardViewModel;
+        public bool IsMarketsActive => CurrentViewModel is OverviewViewModel;
 
         public MainViewModel()
         {
+            DashboardVM = new DashboardViewModel();
             OverviewVM = new OverviewViewModel();
-            CurrentViewModel = OverviewVM;
+            
+            // Start with Dashboard as default view
+            CurrentViewModel = DashboardVM;
 
+            ShowDashboardCommand = new RelayCommand(_ => CurrentViewModel = DashboardVM);
             ShowOverviewCommand = new RelayCommand(_ => CurrentViewModel = OverviewVM);
             ShowStockInfoCommand = new RelayCommand(param =>
             {

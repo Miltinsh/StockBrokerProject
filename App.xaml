@@ -17,6 +17,9 @@
         <SolidColorBrush x:Key="BorderLight" Color="#E0E0E0"/>
         
         <!-- DataTemplates for automatic View-ViewModel mapping -->
+        <DataTemplate DataType="{x:Type vm:DashboardViewModel}">
+            <v:Dashboard/>
+        </DataTemplate>
         <DataTemplate DataType="{x:Type vm:OverviewViewModel}">
             <v:Overview/>
         </DataTemplate>

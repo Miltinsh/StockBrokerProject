@@ -25,7 +25,7 @@
                 <!-- Navigation Buttons -->
                 <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
                     <Button Content="📊 Dashboard" 
-                            Command="{Binding ShowOverviewCommand}"
+                            Command="{Binding ShowDashboardCommand}"
                             Margin="0,0,8,0">
                         <Button.Style>
                             <Style TargetType="Button" BasedOn="{StaticResource NavButtonStyle}">
@@ -44,7 +44,7 @@
                         <Button.Style>
                             <Style TargetType="Button" BasedOn="{StaticResource NavButtonStyle}">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsDashboardActive}" Value="True">
+                                    <DataTrigger Binding="{Binding IsMarketsActive}" Value="True">
                                         <Setter Property="Background" Value="#E8F4FF"/>
                                         <Setter Property="Foreground" Value="{StaticResource PrimaryBlue}"/>
                                         <Setter Property="FontWeight" Value="SemiBold"/>
