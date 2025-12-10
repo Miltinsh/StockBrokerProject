@@ -57,10 +57,17 @@
                                        FontSize="14" FontWeight="SemiBold"
                                        Foreground="{Binding TotalGainLoss, Converter={StaticResource ChangeToColorConverter}}"/>
                             <TextBlock Text=" " FontSize="14"/>
+
+                            <TextBlock FontSize="14"
+                                       Foreground="{Binding TotalGainLoss, Converter={StaticResource ChangeToColorConverter}}">
+                                       <Run Text="{Binding TotalGainLossPercent, Mode=OneWay, StringFormat={}{0:+0.00%;-0.00%}}"/>
+                            </TextBlock>
+                            <!--
                             <TextBlock FontSize="14"
                                        Foreground="{Binding TotalGainLoss, Converter={StaticResource ChangeToColorConverter}}">
                                 <Run Text="{Binding TotalGainLossPercent, StringFormat={}{0:+0.00%;-0.00%}}"/>
-                            </TextBlock>
+                            </TextBlock> -->
+
                             <TextBlock Text=" Today" FontSize="14" Foreground="{StaticResource TextSecondary}"/>
                         </StackPanel>
                     </StackPanel>
@@ -74,10 +81,19 @@
                         <TextBlock Text="{Binding TotalGainLoss, StringFormat=\{0:C2\}}" 
                                    FontSize="24" FontWeight="Bold"
                                    Foreground="{Binding TotalGainLoss, Converter={StaticResource ChangeToColorConverter}}"/>
+
+                        <TextBlock Margin="0,4,0,0" FontSize="14"
+                                   Foreground="{Binding TotalGainLoss, Converter={StaticResource ChangeToColorConverter}}">
+                                   <Run Text="{Binding TotalGainLossPercent, Mode=OneWay, StringFormat={}{0:+0.00%;-0.00%}}"/>
+                        </TextBlock>
+
+                        <!--
                         <TextBlock Margin="0,4,0,0" FontSize="14"
                                    Foreground="{Binding TotalGainLoss, Converter={StaticResource ChangeToColorConverter}}">
                             <Run Text="{Binding TotalGainLossPercent, StringFormat={}{0:+0.00%;-0.00%}}"/>
                         </TextBlock>
+                        
+                        -->
                     </StackPanel>
 
                     <!-- Cash Balance -->

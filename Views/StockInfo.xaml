@@ -154,11 +154,19 @@
                                          Foreground="{StaticResource PositiveGreen}" 
                                          FontWeight="Bold" FontSize="14"
                                          Margin="0,0,20,0"/>
+
+                            <RadioButton Content="Sell" IsChecked="{Binding IsSellMode, Mode=OneWay}" 
+                                         GroupName="TradeType"
+                                         Command="{Binding SetSellModeCommand}"
+                                         Foreground="{StaticResource NegativeRed}" 
+                                         FontWeight="Bold" FontSize="14"/>      
+                            <!--
                             <RadioButton Content="Sell" IsChecked="{Binding IsSellMode}" 
                                          GroupName="TradeType"
                                          Command="{Binding SetSellModeCommand}"
                                          Foreground="{StaticResource NegativeRed}" 
                                          FontWeight="Bold" FontSize="14"/>
+                            -->
                         </StackPanel>
                         
                         <!-- Order Type -->
@@ -236,8 +244,17 @@
                                            FontWeight="Bold" FontSize="14" Margin="0,0,8,0"/>
                                 <TextBlock FontSize="13"
                                            Foreground="{Binding PositionGainLoss, Converter={StaticResource ChangeToColorConverter}}">
+                                           <Run Text="{Binding PositionGainLossPercent, Mode=OneWay, StringFormat={}{0:+0.00%;-0.00%}}"/>      
+                                </TextBlock>
+
+
+                                <!--
+                                <TextBlock FontSize="13"
+                                           Foreground="{Binding PositionGainLoss, Converter={StaticResource ChangeToColorConverter}}">
                                     <Run Text="{Binding PositionGainLossPercent, StringFormat={}{0:+0.00%;-0.00%}}"/>
                                 </TextBlock>
+                                
+                                -->
                             </StackPanel>
                         </Grid>
                     </StackPanel>
