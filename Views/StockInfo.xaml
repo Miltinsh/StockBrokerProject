@@ -79,7 +79,7 @@
                         
                         <!-- Chart Placeholder -->
                         <Border Grid.Row="1" Background="#F8F9FA" CornerRadius="8">
-                            <TextBlock Text="📈 Chart visualization would go here" 
+                            <TextBlock Text="📈 Live price updates every 5 seconds" 
                                        HorizontalAlignment="Center" VerticalAlignment="Center"
                                        Foreground="{StaticResource TextSecondary}" FontSize="16"/>
                         </Border>
@@ -146,20 +146,20 @@
                             <Run Text="{Binding Symbol}" Foreground="{StaticResource PrimaryBlue}"/>
                         </TextBlock>
                         
-                        <!-- Buy/Sell Tabs -->
-                        <Grid Margin="0,0,0,16">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            
-                            <Border Background="{StaticResource BackgroundGray}" CornerRadius="8" Padding="12,10">
-                                <TextBlock Text="Buy" HorizontalAlignment="Center" FontWeight="SemiBold"/>
-                            </Border>
-                            <Border Grid.Column="1" Background="Transparent" CornerRadius="8" Padding="12,10">
-                                <TextBlock Text="Sell" HorizontalAlignment="Center" Foreground="{StaticResource TextSecondary}"/>
-                            </Border>
-                        </Grid>
+                        <!-- Buy/Sell RadioButtons -->
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                            <RadioButton Content="Buy" IsChecked="{Binding IsBuyMode}" 
+                                         GroupName="TradeType"
+                                         Command="{Binding SetBuyModeCommand}"
+                                         Foreground="{StaticResource PositiveGreen}" 
+                                         FontWeight="Bold" FontSize="14"
+                                         Margin="0,0,20,0"/>
+                            <RadioButton Content="Sell" IsChecked="{Binding IsSellMode}" 
+                                         GroupName="TradeType"
+                                         Command="{Binding SetSellModeCommand}"
+                                         Foreground="{StaticResource NegativeRed}" 
+                                         FontWeight="Bold" FontSize="14"/>
+                        </StackPanel>
                         
                         <!-- Order Type -->
                         <TextBlock Text="Order Type" Foreground="{StaticResource TextSecondary}" 
@@ -173,7 +173,8 @@
                         <!-- Shares -->
                         <TextBlock Text="Shares" Foreground="{StaticResource TextSecondary}" 
                                    FontSize="13" Margin="0,0,0,6"/>
-                        <TextBox Text="10" Padding="12,10" FontSize="14" Margin="0,0,0,16"/>
+                        <TextBox Text="{Binding SharesToTrade, UpdateSourceTrigger=PropertyChanged}" 
+                                 Padding="12,10" FontSize="14" Margin="0,0,0,16"/>
                         
                         <!-- Price per Share -->
                         <TextBlock Text="Price per Share" Foreground="{StaticResource TextSecondary}" 
@@ -185,12 +186,15 @@
                         <!-- Total -->
                         <Grid Margin="0,0,0,16">
                             <TextBlock Text="Total" Foreground="{StaticResource TextSecondary}" FontSize="13"/>
-                            <TextBlock Text="$1784.20" HorizontalAlignment="Right" 
+                            <TextBlock Text="{Binding TotalCost, StringFormat=\{0:C2\}}" 
+                                       HorizontalAlignment="Right" 
                                        FontSize="18" FontWeight="Bold" Foreground="{StaticResource TextPrimary}"/>
                         </Grid>
                         
-                        <!-- Buy Button -->
-                        <Button Content="Buy 10 Shares" Style="{StaticResource ActionButtonStyle}" 
+                        <!-- Execute Trade Button -->
+                        <Button Content="{Binding TradeButtonText}" 
+                                Style="{StaticResource ActionButtonStyle}" 
+                                Command="{Binding ExecuteTradeCommand}"
                                 HorizontalAlignment="Stretch" Padding="0,14"/>
                     </StackPanel>
                 </Border>
@@ -204,7 +208,7 @@
                         <Grid Margin="0,0,0,12">
                             <TextBlock Text="Shares Owned" Foreground="{StaticResource TextSecondary}" FontSize="13"/>
                             <TextBlock HorizontalAlignment="Right" FontWeight="SemiBold">
-                                <Run Text="25"/>
+                                <Run Text="{Binding SharesOwned, Mode=OneWay}"/>
                                 <Run Text=" " Foreground="{StaticResource TextSecondary}"/>
                                 <Run Text="{Binding Symbol}" Foreground="{StaticResource TextSecondary}"/>
                             </TextBlock>
@@ -212,12 +216,14 @@
                         
                         <Grid Margin="0,0,0,12">
                             <TextBlock Text="Average Price" Foreground="{StaticResource TextSecondary}" FontSize="13"/>
-                            <TextBlock Text="$172.30" HorizontalAlignment="Right" FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding AveragePrice, StringFormat=\{0:C2\}}" 
+                                       HorizontalAlignment="Right" FontWeight="SemiBold"/>
                         </Grid>
                         
                         <Grid Margin="0,0,0,12">
                             <TextBlock Text="Total Value" Foreground="{StaticResource TextSecondary}" FontSize="13"/>
-                            <TextBlock Text="$4460.50" HorizontalAlignment="Right" FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding PositionValue, StringFormat=\{0:C2\}}" 
+                                       HorizontalAlignment="Right" FontWeight="SemiBold"/>
                         </Grid>
                         
                         <Separator Margin="0,8" Background="{StaticResource BorderLight}"/>
@@ -225,9 +231,13 @@
                         <Grid>
                             <TextBlock Text="Profit/Loss" FontSize="13" FontWeight="SemiBold"/>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <TextBlock Text="+$153.00" Foreground="{StaticResource PositiveGreen}" 
+                                <TextBlock Text="{Binding PositionGainLoss, StringFormat=\{0:C2\}}" 
+                                           Foreground="{Binding PositionGainLoss, Converter={StaticResource ChangeToColorConverter}}"
                                            FontWeight="Bold" FontSize="14" Margin="0,0,8,0"/>
-                                <TextBlock Text="+3.55%" Foreground="{StaticResource PositiveGreen}" FontSize="13"/>
+                                <TextBlock FontSize="13"
+                                           Foreground="{Binding PositionGainLoss, Converter={StaticResource ChangeToColorConverter}}">
+                                    <Run Text="{Binding PositionGainLossPercent, StringFormat={}{0:+0.00%;-0.00%}}"/>
+                                </TextBlock>
                             </StackPanel>
                         </Grid>
                     </StackPanel>

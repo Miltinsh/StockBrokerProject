@@ -1,73 +1,83 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
+using StockBrokerProject.Models;
+using StockBrokerProject.Services;
 
 namespace StockBrokerProject.ViewModels
 {
     public class DashboardViewModel : INotifyPropertyChanged
     {
-        // Portfolio Stats
-        private decimal _totalValue = 48750.32m;
-        private decimal _totalGainLoss = 6250.78m;
-        private decimal _totalGainLossPercent = 14.72m;
-        private decimal _cashBalance = 12500.00m;
-        private decimal _investedAmount = 36250.32m;
+        private readonly Portfolio _portfolio;
+        private readonly DataService _dataService;
 
-        public decimal TotalValue
-        {
-            get => _totalValue;
-            set { if (value != _totalValue) { _totalValue = value; OnPropertyChanged(nameof(TotalValue)); } }
-        }
+        // Portfolio Stats - bound to Portfolio object
+        public decimal TotalValue => _portfolio.TotalValue;
+        public decimal TotalGainLoss => _portfolio.TotalGainLoss;
+        public decimal TotalGainLossPercent => _portfolio.TotalValue > 0 
+            ? (_portfolio.TotalGainLoss / (_portfolio.TotalValue - _portfolio.TotalGainLoss)) * 100 
+            : 0;
+        public decimal CashBalance => _portfolio.CashBalance;
+        public decimal InvestedAmount => _portfolio.TotalValue - _portfolio.CashBalance;
 
-        public decimal TotalGainLoss
-        {
-            get => _totalGainLoss;
-            set { if (value != _totalGainLoss) { _totalGainLoss = value; OnPropertyChanged(nameof(TotalGainLoss)); } }
-        }
-
-        public decimal TotalGainLossPercent
-        {
-            get => _totalGainLossPercent;
-            set { if (value != _totalGainLossPercent) { _totalGainLossPercent = value; OnPropertyChanged(nameof(TotalGainLossPercent)); } }
-        }
-
-        public decimal CashBalance
-        {
-            get => _cashBalance;
-            set { if (value != _cashBalance) { _cashBalance = value; OnPropertyChanged(nameof(CashBalance)); } }
-        }
-
-        public decimal InvestedAmount
-        {
-            get => _investedAmount;
-            set { if (value != _investedAmount) { _investedAmount = value; OnPropertyChanged(nameof(InvestedAmount)); } }
-        }
-
-        // Top Movers - using StockInfoViewModel from OverviewViewModel
+        // Top Movers
         public ObservableCollection<TopMoverItem> TopMovers { get; } = new();
 
         // News Feed
         public ObservableCollection<NewsFeedItem> NewsFeeds { get; } = new();
 
-        public DashboardViewModel()
+        public DashboardViewModel(Portfolio portfolio, DataService dataService)
         {
-            LoadTopMovers();
+            _portfolio = portfolio;
+            _dataService = dataService;
+            
+            // Subscribe to portfolio changes
+            _portfolio.PropertyChanged += (s, e) => RefreshStats();
+            
             LoadNewsFeed();
         }
 
-        private void LoadTopMovers()
+        public void RefreshData(ObservableCollection<StockInfoViewModel> stocks)
         {
-            // Top 5 movers based on the sample data
-            TopMovers.Add(new TopMoverItem("NVDA", "NVIDIA Corporation", 485.12m, 28.45m, 6.23m, "45.2M"));
-            TopMovers.Add(new TopMoverItem("TSLA", "Tesla, Inc.", 242.84m, -15.32m, -5.93m, "98.7M"));
-            TopMovers.Add(new TopMoverItem("META", "Meta Platforms, Inc.", 338.56m, 12.34m, 3.78m, "18.5M"));
-            TopMovers.Add(new TopMoverItem("AAPL", "Apple Inc.", 178.42m, 8.12m, 4.77m, "52.1M"));
-            TopMovers.Add(new TopMoverItem("AMD", "Advanced Micro Devices", 118.92m, -6.78m, -5.40m, "63.2M"));
+            RefreshStats();
+            RefreshTopMovers(stocks);
+        }
+
+        private void RefreshStats()
+        {
+            OnPropertyChanged(nameof(TotalValue));
+            OnPropertyChanged(nameof(TotalGainLoss));
+            OnPropertyChanged(nameof(TotalGainLossPercent));
+            OnPropertyChanged(nameof(CashBalance));
+            OnPropertyChanged(nameof(InvestedAmount));
+        }
+
+        private void RefreshTopMovers(ObservableCollection<StockInfoViewModel> stocks)
+        {
+            // Get top 5 movers by absolute change percent
+            var topMovers = stocks
+                .OrderByDescending(s => Math.Abs(s.ChangePercent))
+                .Take(5)
+                .ToList();
+
+            TopMovers.Clear();
+            foreach (var stock in topMovers)
+            {
+                TopMovers.Add(new TopMoverItem(
+                    stock.Symbol,
+                    stock.Name,
+                    stock.Price,
+                    stock.Change,
+                    stock.ChangePercent,
+                    stock.Volume
+                ));
+            }
         }
 
         private void LoadNewsFeed()
         {
-            // Sample news items
+            // Sample news items - in real app, these would be dynamic
             NewsFeeds.Add(new NewsFeedItem(
                 "Michael Chen",
                 "$NVDA",
