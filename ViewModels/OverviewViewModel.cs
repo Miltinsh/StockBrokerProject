@@ -26,17 +26,14 @@ namespace StockBrokerProject.ViewModels
             }
         }
 
-        // Reference to MainViewModel for executing trades
         public MainViewModel? MainViewModel { get; set; }
 
         public OverviewViewModel(DataService dataService)
         {
             _dataService = dataService;
             
-            // Load saved prices or create initial stock data
             var savedPrices = _dataService.LoadPrices();
             
-            // Sample stock market data
             var sampleStocks = new[]
             {
                 new Stock("AAPL", "Apple Inc.", 178.42m, 0m, 0m, "Technology", "2.78T", "52.1M", 
@@ -68,7 +65,6 @@ namespace StockBrokerProject.ViewModels
             foreach (var stock in sampleStocks)
             {
                 Stock stockToAdd = stock;
-                // Use saved price if available, otherwise use default
                 if (savedPrices.ContainsKey(stock.Symbol))
                 {
                     stockToAdd = new Stock(

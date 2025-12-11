@@ -1,0 +1,20 @@
+Transaction History
+Fix cards in market view
+Currently owned stocks in Dashboard view
+Trade button functionality in Market view
+
+Graphs in stockinfo view
+Graphs for portfolio
+Functional graph buttons
+
+functional search in market view, filters
+Quick access to stock view from portfolio/dashboard by clicking on a stock/button 
+
+Dark mode
+Functional company information tab in stock info view
+
+More functionality for specific order types, 
+stop loss triggers
+automatic trading triggers
+
+functionality to manually export/import portfolio files

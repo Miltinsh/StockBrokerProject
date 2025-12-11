@@ -12,11 +12,11 @@ namespace StockBrokerProject
             if (value is decimal change)
             {
                 if (change > 0)
-                    return new SolidColorBrush(Color.FromRgb(0, 200, 83)); // Green
+                    return new SolidColorBrush(Color.FromRgb(0, 200, 83));
                 else if (change < 0)
-                    return new SolidColorBrush(Color.FromRgb(229, 57, 53)); // Red
+                    return new SolidColorBrush(Color.FromRgb(229, 57, 53));
                 else
-                    return new SolidColorBrush(Color.FromRgb(127, 140, 141)); // Gray
+                    return new SolidColorBrush(Color.FromRgb(127, 140, 141));
             }
             return new SolidColorBrush(Color.FromRgb(127, 140, 141));
         }

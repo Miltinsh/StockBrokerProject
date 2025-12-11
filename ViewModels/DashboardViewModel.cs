@@ -12,7 +12,6 @@ namespace StockBrokerProject.ViewModels
         private readonly Portfolio _portfolio;
         private readonly DataService _dataService;
 
-        // Portfolio Stats - bound to Portfolio object
         public decimal TotalValue => _portfolio.TotalValue;
         public decimal TotalGainLoss => _portfolio.TotalGainLoss;
         public decimal TotalGainLossPercent => _portfolio.TotalValue > 0 
@@ -21,10 +20,8 @@ namespace StockBrokerProject.ViewModels
         public decimal CashBalance => _portfolio.CashBalance;
         public decimal InvestedAmount => _portfolio.TotalValue - _portfolio.CashBalance;
 
-        // Top Movers
         public ObservableCollection<TopMoverItem> TopMovers { get; } = new();
 
-        // News Feed
         public ObservableCollection<NewsFeedItem> NewsFeeds { get; } = new();
 
         public DashboardViewModel(Portfolio portfolio, DataService dataService)
@@ -32,7 +29,6 @@ namespace StockBrokerProject.ViewModels
             _portfolio = portfolio;
             _dataService = dataService;
             
-            // Subscribe to portfolio changes
             _portfolio.PropertyChanged += (s, e) => RefreshStats();
             
             LoadNewsFeed();
@@ -55,7 +51,6 @@ namespace StockBrokerProject.ViewModels
 
         private void RefreshTopMovers(ObservableCollection<StockInfoViewModel> stocks)
         {
-            // Get top 5 movers by absolute change percent
             var topMovers = stocks
                 .OrderByDescending(s => Math.Abs(s.ChangePercent))
                 .Take(5)
@@ -77,7 +72,6 @@ namespace StockBrokerProject.ViewModels
 
         private void LoadNewsFeed()
         {
-            // Sample news items - in real app, these would be dynamic
             NewsFeeds.Add(new NewsFeedItem(
                 "Michael Chen",
                 "$NVDA",
@@ -132,7 +126,6 @@ namespace StockBrokerProject.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-    // Helper classes for Dashboard items
     public class TopMoverItem : INotifyPropertyChanged
     {
         public string Symbol { get; set; } = string.Empty;

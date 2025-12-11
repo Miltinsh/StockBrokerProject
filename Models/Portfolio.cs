@@ -33,7 +33,7 @@ namespace StockBrokerProject.Models
 
         public Portfolio()
         {
-            CashBalance = 100000m; // Start with $100,000
+            CashBalance = 100000m; 
             TotalValue = 100000m;
             TotalGainLoss = 0m;
         }
@@ -50,7 +50,6 @@ namespace StockBrokerProject.Models
         public decimal AverageCost { get; set; }
         public decimal CurrentPrice { get; set; }
         
-        // Calculated properties
         public decimal TotalCost => Shares * AverageCost;
         public decimal CurrentValue => Shares * CurrentPrice;
         public decimal GainLoss => CurrentValue - TotalCost;
@@ -60,7 +59,7 @@ namespace StockBrokerProject.Models
     public class Transaction
     {
         public DateTime DateTime { get; set; }
-        public string Type { get; set; } = string.Empty; // "BUY" or "SELL"
+        public string Type { get; set; } = string.Empty; 
         public string Symbol { get; set; } = string.Empty;
         public int Shares { get; set; }
         public decimal Price { get; set; }

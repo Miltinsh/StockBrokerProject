@@ -6,17 +6,7 @@
              xmlns:v="clr-namespace:StockBrokerProject.Views"
              StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
-        <!-- Color Definitions -->
-        <SolidColorBrush x:Key="PrimaryBlue" Color="#4A90E2"/>
-        <SolidColorBrush x:Key="PositiveGreen" Color="#00C853"/>
-        <SolidColorBrush x:Key="NegativeRed" Color="#E53935"/>
-        <SolidColorBrush x:Key="BackgroundGray" Color="#F5F7FA"/>
-        <SolidColorBrush x:Key="CardWhite" Color="#FFFFFF"/>
-        <SolidColorBrush x:Key="TextPrimary" Color="#2C3E50"/>
-        <SolidColorBrush x:Key="TextSecondary" Color="#7F8C8D"/>
-        <SolidColorBrush x:Key="BorderLight" Color="#E0E0E0"/>
-        
-        <!-- DataTemplates for automatic View-ViewModel mapping -->
+
         <DataTemplate DataType="{x:Type vm:DashboardViewModel}">
             <v:Dashboard/>
         </DataTemplate>
@@ -26,7 +16,18 @@
         <DataTemplate DataType="{x:Type vm:StockInfoViewModel}">
             <v:StockInfo/>
         </DataTemplate>
-        
+
+
+        <!-- Color Definitions -->
+        <SolidColorBrush x:Key="PrimaryBlue" Color="#4A90E2"/>
+        <SolidColorBrush x:Key="PositiveGreen" Color="#00C853"/>
+        <SolidColorBrush x:Key="NegativeRed" Color="#E53935"/>
+        <SolidColorBrush x:Key="BackgroundGray" Color="#F5F7FA"/>
+        <SolidColorBrush x:Key="CardWhite" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="TextPrimary" Color="#2C3E50"/>
+        <SolidColorBrush x:Key="TextSecondary" Color="#7F8C8D"/>
+        <SolidColorBrush x:Key="BorderLight" Color="#E0E0E0"/>
+
         <!-- Button Styles -->
         <Style x:Key="NavButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>

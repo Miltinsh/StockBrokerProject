@@ -16,11 +16,9 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Title -->
         <TextBlock Text="Stock Markets" FontSize="28" FontWeight="Bold" 
                    Foreground="{StaticResource TextPrimary}" Margin="0,0,0,24"/>
 
-        <!-- Search Bar -->
         <Border Grid.Row="1" Background="White" CornerRadius="8" Padding="12" Margin="0,0,0,24"
                 BorderBrush="{StaticResource BorderLight}" BorderThickness="1">
             <Grid>
@@ -30,7 +28,6 @@
             </Grid>
         </Border>
 
-        <!-- Stock Table -->
         <Border Grid.Row="2" Style="{StaticResource CardStyle}">
             <DataGrid ItemsSource="{Binding Stocks}" 
                       SelectedItem="{Binding SelectedStock}"
@@ -45,9 +42,9 @@
                       Background="Transparent"
                       RowBackground="White"
                       AlternatingRowBackground="#FAFBFC">
-                
+
                 <DataGrid.Resources>
-                    <!-- Remove focus border -->
+                    
                     <Style TargetType="DataGridCell">
                         <Setter Property="BorderThickness" Value="0"/>
                         <Setter Property="Padding" Value="12,16"/>
@@ -60,7 +57,6 @@
                         </Style.Triggers>
                     </Style>
                     
-                    <!-- Column Header Style -->
                     <Style TargetType="DataGridColumnHeader">
                         <Setter Property="Background" Value="Transparent"/>
                         <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>

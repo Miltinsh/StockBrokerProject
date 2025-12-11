@@ -216,9 +216,7 @@ namespace StockBrokerProject.ViewModels
             if (_mainViewModel == null) return;
             
             var result = System.Windows.MessageBox.Show(
-                $"{(IsBuyMode ? "Buy" : "Sell")} {SharesToTrade} share{(SharesToTrade > 1 ? "s" : "")} of {Symbol} at ${Price:N2}?\n\n" +
-                $"Total: ${TotalCost:N2}",
-                "Confirm Trade",
+                $"{(IsBuyMode ? "Buy" : "Sell")} {SharesToTrade} share{(SharesToTrade > 1 ? "s" : "")} of {Symbol} at ${Price:N2}?\n\n" + $"Total: ${TotalCost:N2}", "Confirm Trade",
                 System.Windows.MessageBoxButton.YesNo,
                 System.Windows.MessageBoxImage.Question
             );

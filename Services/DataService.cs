@@ -12,7 +12,6 @@ namespace StockBrokerProject.Services
         private const string PricesFile = "prices.json";
         private const string TransactionsFile = "transactions.json";
 
-        // JSON serializer options for pretty printing
         private readonly JsonSerializerOptions _options = new()
         {
             WriteIndented = true

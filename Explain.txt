@@ -1,0 +1,76 @@
+﻿/// <summary>
+        /// Calculates volatility multiplier based on tier values.
+        /// Tier 1: 0.05% - 0.50% change (common, small moves)
+        /// Tier 2: 0.20% - 2.00% change (uncommon, medium moves)  
+        /// Tier 3: 0.50% - 5.00% change (rare, large moves)
+        /// </summary>
+        private decimal CalculateVolatilityMultiplier(int tier1, int tier2, int tier3)
+        {
+            decimal multiplier = 0m;
+
+            // Tier 1: Base change (0.05% to 0.50%)
+            multiplier += tier1 * 0.05m;
+
+            // Tier 2: Medium amplification (adds 0.2% to 2.0%)
+            if (tier2 > 0)
+            {
+                multiplier += tier2 * 0.2m;
+            }
+
+            // Tier 3: Large amplification (adds 0.5% to 5.0%)
+            if (tier3 > 0)
+            {
+                multiplier += tier3 * 0.5m;
+            }
+
+            return multiplier;
+        }
+
+        What exactly does this function do? Where it is used?
+        Where exactly is the volatility multiplier applied in my codebase? 
+        Is it used for real values displayed to the user, or is it part of an internal calculation or just a background task?
+      
+
+      /// <summary>
+        /// Gets a description of the volatility for debugging/logging
+        /// </summary>
+        public string GetVolatilityDescription(int tier1, int tier2, int tier3)
+        {
+            if (tier3 > 0)
+                return $"🔥 RARE VOLATILITY (Tier 3: {tier1}-{tier2}-{tier3})";
+            else if (tier2 > 0)
+                return $"⚡ Medium Volatility (Tier 2: {tier1}-{tier2})";
+            else
+                return $"📊 Normal Volatility (Tier 1: {tier1})";
+        }
+      Is this just a helper function or part of a larger calculation? Is it used for logging or user display?
+
+
+      /// <summary>
+        /// Batch update multiple stock prices
+        /// </summary>
+        public Dictionary<string, decimal> UpdatePrices(Dictionary<string, decimal> currentPrices)
+        {
+            var updatedPrices = new Dictionary<string, decimal>();
+            
+            foreach (var kvp in currentPrices)
+            {
+                updatedPrices[kvp.Key] = UpdatePrice(kvp.Value);
+            }
+            
+            return updatedPrices;
+        }
+
+       What is the purpose of this function? Is it used to update stock prices in bulk? How? What does the kvp stand for or is it just a variable name?
+
+
+        <TextBlock Text=" • " FontSize="13" 
+                                                               Foreground="{StaticResource TextSecondary}" 
+                                                               Margin="4,0"/>
+
+       Where does StaticResource come from what it is used for
+
+
+       Explain to me what part of my code generates the separate stocks in Market view
+
+       What does the m stand for next to various numbers like this: CashBalance = 100000m; ?

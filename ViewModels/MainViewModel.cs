@@ -1,4 +1,4 @@
-using System;
+ using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
@@ -54,37 +54,29 @@ namespace StockBrokerProject.ViewModels
         public ICommand SaveDataCommand { get; }
         public ICommand ResetPortfolioCommand { get; }
 
-        // Properties for active state tracking
         public bool IsDashboardActive => CurrentViewModel is DashboardViewModel;
         public bool IsMarketsActive => CurrentViewModel is OverviewViewModel;
 
         public MainViewModel()
         {
-            // Initialize services
             _dataService = new DataService();
             _priceUpdateService = new PriceUpdateService();
             
-            // Load portfolio from JSON (or create new with $100,000)
             _portfolio = _dataService.LoadPortfolio();
             
-            // Initialize ViewModels with shared portfolio reference
             DashboardVM = new DashboardViewModel(_portfolio, _dataService);
             OverviewVM = new OverviewViewModel(_dataService);
             
-            // Link OverviewVM to MainViewModel for trade execution
             OverviewVM.MainViewModel = this;
             
-            // Start with Dashboard as default view
             CurrentViewModel = DashboardVM;
 
-            // Setup commands
             ShowDashboardCommand = new RelayCommand(_ => CurrentViewModel = DashboardVM);
             ShowOverviewCommand = new RelayCommand(_ => CurrentViewModel = OverviewVM);
             ShowStockInfoCommand = new RelayCommand(param =>
             {
                 if (param is StockInfoViewModel stockVM)
                 {
-                    // Create a new StockInfoViewModel with portfolio reference for trading
                     var tradeableStockVM = new StockInfoViewModel(
                         new Stock(
                             stockVM.Symbol,
@@ -124,7 +116,7 @@ namespace StockBrokerProject.ViewModels
             SaveDataCommand = new RelayCommand(_ => SaveAllData());
             ResetPortfolioCommand = new RelayCommand(_ => ResetPortfolio());
 
-            // Initialize price update timer (every 5 seconds)
+
             _priceUpdateTimer = new DispatcherTimer
             {
                 Interval = TimeSpan.FromSeconds(5)
@@ -135,7 +127,6 @@ namespace StockBrokerProject.ViewModels
 
         private void OnPriceUpdateTick(object? sender, EventArgs e)
         {
-            // Update all stock prices using tiered random system
             foreach (var stock in OverviewVM.Stocks)
             {
                 decimal oldPrice = stock.Price;
@@ -149,13 +140,10 @@ namespace StockBrokerProject.ViewModels
                 stock.ChangePercent = changePercent;
             }
             
-            // Update portfolio positions with new prices
             UpdatePortfolioValues();
             
-            // Update dashboard
             DashboardVM.RefreshData(OverviewVM.Stocks);
             
-            // Auto-save prices every update
             SavePrices();
         }
 
@@ -166,7 +154,6 @@ namespace StockBrokerProject.ViewModels
             
             foreach (var position in _portfolio.Positions)
             {
-                // Find current price from stocks
                 var stock = OverviewVM.Stocks.FirstOrDefault(s => s.Symbol == position.Symbol);
                 if (stock != null)
                 {
@@ -211,14 +198,11 @@ namespace StockBrokerProject.ViewModels
                 return;
             }
             
-            // Deduct cash
             _portfolio.CashBalance -= total;
             
-            // Update or create position
             var position = _portfolio.Positions.FirstOrDefault(p => p.Symbol == symbol);
             if (position != null)
             {
-                // Update average cost
                 decimal totalShares = position.Shares + shares;
                 decimal totalCost = (position.Shares * position.AverageCost) + (shares * price);
                 position.AverageCost = totalCost / totalShares;
@@ -226,7 +210,6 @@ namespace StockBrokerProject.ViewModels
             }
             else
             {
-                // Create new position
                 _portfolio.Positions.Add(new Position
                 {
                     Symbol = symbol,
@@ -236,7 +219,6 @@ namespace StockBrokerProject.ViewModels
                 });
             }
             
-            // Record transaction
             _portfolio.TransactionHistory.Add(new Transaction
             {
                 DateTime = DateTime.Now,
@@ -271,19 +253,15 @@ namespace StockBrokerProject.ViewModels
             
             decimal total = shares * price;
             
-            // Add cash
             _portfolio.CashBalance += total;
             
-            // Update position
             position.Shares -= shares;
             
-            // Remove position if no shares left
             if (position.Shares == 0)
             {
                 _portfolio.Positions.Remove(position);
             }
             
-            // Record transaction
             _portfolio.TransactionHistory.Add(new Transaction
             {
                 DateTime = DateTime.Now,
