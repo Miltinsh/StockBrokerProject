@@ -17,7 +17,6 @@ namespace StockBrokerProject.Services
             WriteIndented = true
         };
 
-        #region Portfolio Management
 
         public Portfolio LoadPortfolio()
         {
@@ -63,9 +62,9 @@ namespace StockBrokerProject.Services
             };
         }
 
-        #endregion
 
-        #region Price Management
+
+         
 
         public Dictionary<string, decimal> LoadPrices()
         {
@@ -99,9 +98,7 @@ namespace StockBrokerProject.Services
             }
         }
 
-        #endregion
-
-        #region Transaction History
+     
 
         public List<Transaction> LoadTransactions()
         {
@@ -135,9 +132,7 @@ namespace StockBrokerProject.Services
             }
         }
 
-        #endregion
 
-        #region Utility Methods
 
         public void DeleteAllData()
         {
@@ -158,6 +153,6 @@ namespace StockBrokerProject.Services
             return File.Exists(PortfolioFile) || File.Exists(PricesFile);
         }
 
-        #endregion
+ 
     }
 }
