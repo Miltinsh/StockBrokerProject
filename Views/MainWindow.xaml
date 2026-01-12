@@ -14,13 +14,13 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                
+
                 <StackPanel Orientation="Horizontal" Grid.Column="0">
                     <TextBlock Text="📈" FontSize="20" VerticalAlignment="Center" Margin="0,0,8,0"/>
                     <TextBlock Text="StockBroker" FontSize="18" FontWeight="SemiBold" 
                                Foreground="{StaticResource PrimaryBlue}" VerticalAlignment="Center"/>
                 </StackPanel>
-                
+
                 <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
                     <Button Content="📊 Dashboard" 
                             Command="{Binding ShowDashboardCommand}"
@@ -29,6 +29,21 @@
                             <Style TargetType="Button" BasedOn="{StaticResource NavButtonStyle}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsDashboardActive}" Value="True">
+                                        <Setter Property="Background" Value="#E8F4FF"/>
+                                        <Setter Property="Foreground" Value="{StaticResource PrimaryBlue}"/>
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button Content="💼 Portfolio" 
+                            Command="{Binding ShowPortfolioCommand}"
+                            Margin="0,0,8,0">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource NavButtonStyle}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsPortfolioActive}" Value="True">
                                         <Setter Property="Background" Value="#E8F4FF"/>
                                         <Setter Property="Foreground" Value="{StaticResource PrimaryBlue}"/>
                                         <Setter Property="FontWeight" Value="SemiBold"/>

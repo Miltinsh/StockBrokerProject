@@ -1,4 +1,4 @@
- using System;
+using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
@@ -13,7 +13,7 @@ namespace StockBrokerProject.ViewModels
         private readonly DataService _dataService;
         private readonly PriceUpdateService _priceUpdateService;
         private readonly DispatcherTimer _priceUpdateTimer;
-        
+
         private object? _currentViewModel;
         private Portfolio _portfolio;
 
@@ -27,6 +27,7 @@ namespace StockBrokerProject.ViewModels
                     _currentViewModel = value;
                     OnPropertyChanged(nameof(CurrentViewModel));
                     OnPropertyChanged(nameof(IsDashboardActive));
+                    OnPropertyChanged(nameof(IsPortfolioActive));
                     OnPropertyChanged(nameof(IsMarketsActive));
                 }
             }
@@ -46,32 +47,40 @@ namespace StockBrokerProject.ViewModels
         }
 
         public DashboardViewModel DashboardVM { get; }
+        public PortfolioViewModel PortfolioVM { get; }
         public OverviewViewModel OverviewVM { get; }
-        
+
         public ICommand ShowDashboardCommand { get; }
+        public ICommand ShowPortfolioCommand { get; }
         public ICommand ShowOverviewCommand { get; }
         public ICommand ShowStockInfoCommand { get; }
         public ICommand SaveDataCommand { get; }
         public ICommand ResetPortfolioCommand { get; }
 
         public bool IsDashboardActive => CurrentViewModel is DashboardViewModel;
+        public bool IsPortfolioActive => CurrentViewModel is PortfolioViewModel;
         public bool IsMarketsActive => CurrentViewModel is OverviewViewModel;
 
         public MainViewModel()
         {
             _dataService = new DataService();
             _priceUpdateService = new PriceUpdateService();
-            
+
             _portfolio = _dataService.LoadPortfolio();
-            
+
             DashboardVM = new DashboardViewModel(_portfolio, _dataService);
+            PortfolioVM = new PortfolioViewModel(_portfolio, this);
             OverviewVM = new OverviewViewModel(_dataService);
-            
+
             OverviewVM.MainViewModel = this;
-            
+
+            // Initial refresh of Portfolio after everything is initialized
+            PortfolioVM.RefreshData();
+
             CurrentViewModel = DashboardVM;
 
             ShowDashboardCommand = new RelayCommand(_ => CurrentViewModel = DashboardVM);
+            ShowPortfolioCommand = new RelayCommand(_ => CurrentViewModel = PortfolioVM);
             ShowOverviewCommand = new RelayCommand(_ => CurrentViewModel = OverviewVM);
             ShowStockInfoCommand = new RelayCommand(param =>
             {
@@ -131,19 +140,20 @@ namespace StockBrokerProject.ViewModels
             {
                 decimal oldPrice = stock.Price;
                 decimal newPrice = _priceUpdateService.UpdatePrice(oldPrice);
-                
+
                 decimal change = newPrice - oldPrice;
                 decimal changePercent = oldPrice > 0 ? (change / oldPrice) * 100 : 0;
-                
+
                 stock.Price = newPrice;
                 stock.Change = change;
                 stock.ChangePercent = changePercent;
             }
-            
+
             UpdatePortfolioValues();
-            
+
             DashboardVM.RefreshData(OverviewVM.Stocks);
-            
+            PortfolioVM.RefreshData();
+
             SavePrices();
         }
 
@@ -151,7 +161,7 @@ namespace StockBrokerProject.ViewModels
         {
             decimal totalPositionValue = 0m;
             decimal totalCost = 0m;
-            
+
             foreach (var position in _portfolio.Positions)
             {
                 var stock = OverviewVM.Stocks.FirstOrDefault(s => s.Symbol == position.Symbol);
@@ -162,7 +172,7 @@ namespace StockBrokerProject.ViewModels
                     totalCost += position.TotalCost;
                 }
             }
-            
+
             _portfolio.TotalValue = _portfolio.CashBalance + totalPositionValue;
             _portfolio.TotalGainLoss = totalPositionValue - totalCost;
         }
@@ -177,16 +187,40 @@ namespace StockBrokerProject.ViewModels
             {
                 ExecuteSell(symbol, shares, price);
             }
-            
+
             UpdatePortfolioValues();
             DashboardVM.RefreshData(OverviewVM.Stocks);
+            PortfolioVM.RefreshData();
             SaveAllData();
+        }
+
+        public void NavigateToStock(string symbol)
+        {
+            var stock = OverviewVM.Stocks.FirstOrDefault(s => s.Symbol == symbol);
+            if (stock != null)
+            {
+                CurrentViewModel = new StockInfoViewModel(
+                    new Stock(
+                        stock.Symbol,
+                        stock.Name,
+                        stock.Price,
+                        stock.Change,
+                        stock.ChangePercent,
+                        stock.Sector,
+                        stock.MarketCap,
+                        stock.Volume,
+                        stock.Details
+                    ),
+                    _portfolio,
+                    this
+                );
+            }
         }
 
         private void ExecuteBuy(string symbol, int shares, decimal price)
         {
             decimal total = shares * price;
-            
+
             if (_portfolio.CashBalance < total)
             {
                 System.Windows.MessageBox.Show(
@@ -197,9 +231,9 @@ namespace StockBrokerProject.ViewModels
                 );
                 return;
             }
-            
+
             _portfolio.CashBalance -= total;
-            
+
             var position = _portfolio.Positions.FirstOrDefault(p => p.Symbol == symbol);
             if (position != null)
             {
@@ -218,7 +252,7 @@ namespace StockBrokerProject.ViewModels
                     CurrentPrice = price
                 });
             }
-            
+
             _portfolio.TransactionHistory.Add(new Transaction
             {
                 DateTime = DateTime.Now,
@@ -227,7 +261,7 @@ namespace StockBrokerProject.ViewModels
                 Shares = shares,
                 Price = price
             });
-            
+
             System.Windows.MessageBox.Show(
                 $"Successfully purchased {shares} shares of {symbol} at ${price:N2}\nTotal: ${total:N2}",
                 "Trade Executed",
@@ -239,7 +273,7 @@ namespace StockBrokerProject.ViewModels
         private void ExecuteSell(string symbol, int shares, decimal price)
         {
             var position = _portfolio.Positions.FirstOrDefault(p => p.Symbol == symbol);
-            
+
             if (position == null || position.Shares < shares)
             {
                 System.Windows.MessageBox.Show(
@@ -250,18 +284,18 @@ namespace StockBrokerProject.ViewModels
                 );
                 return;
             }
-            
+
             decimal total = shares * price;
-            
+
             _portfolio.CashBalance += total;
-            
+
             position.Shares -= shares;
-            
+
             if (position.Shares == 0)
             {
                 _portfolio.Positions.Remove(position);
             }
-            
+
             _portfolio.TransactionHistory.Add(new Transaction
             {
                 DateTime = DateTime.Now,
@@ -270,7 +304,7 @@ namespace StockBrokerProject.ViewModels
                 Shares = shares,
                 Price = price
             });
-            
+
             System.Windows.MessageBox.Show(
                 $"Successfully sold {shares} shares of {symbol} at ${price:N2}\nTotal: ${total:N2}",
                 "Trade Executed",
@@ -300,14 +334,15 @@ namespace StockBrokerProject.ViewModels
                 System.Windows.MessageBoxButton.YesNo,
                 System.Windows.MessageBoxImage.Warning
             );
-            
+
             if (result == System.Windows.MessageBoxResult.Yes)
             {
                 _dataService.DeleteAllData();
                 _portfolio = new Portfolio();
                 DashboardVM.RefreshData(OverviewVM.Stocks);
+                PortfolioVM.RefreshData();
                 SaveAllData();
-                
+
                 System.Windows.MessageBox.Show(
                     "Portfolio has been reset to $100,000",
                     "Reset Complete",

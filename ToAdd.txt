@@ -1,20 +1,36 @@
-Transaction History
-Fix cards in market view
-Currently owned stocks in Dashboard view
-Trade button functionality in Market view
+To Add:
+	Fix cards in market view
 
-Graphs in stockinfo view
-Graphs for portfolio
-Functional graph buttons
+	Trade button functionality in Market view
 
-functional search in market view, filters
-Quick access to stock view from portfolio/dashboard by clicking on a stock/button 
+	Graphs in stockinfo view
+	Graphs for portfolio
+	Functional graph buttons
 
-Dark mode
-Functional company information tab in stock info view
+	functional search in market view, filters
+	Quick access to stock view from portfolio/dashboard by clicking on a stock/button 
 
-More functionality for specific order types, 
-stop loss triggers
-automatic trading triggers
+	Dark mode
+	Functional company information tab in stock info view
 
-functionality to manually export/import portfolio files
+	More functionality for specific order types, 
+	stop loss triggers
+	automatic trading triggers
+
+	functionality to manually export/import portfolio files
+
+
+
+Started:
+ PortfolioView{
+	-Transaction History{
+		More data:
+		buy price
+		sell price
+		go to stock button
+	}
+}
+	
+Done:
+-Currently owned stocks in Dashboard view ( in PoerfolioView)
+
