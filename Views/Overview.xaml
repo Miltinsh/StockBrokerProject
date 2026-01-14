@@ -138,12 +138,12 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                    <Button Content="👁 View" Style="{StaticResource ViewButtonStyle}" 
+                                    <Button Content="View" Style="{StaticResource ViewButtonStyle}" 
                                             Command="{Binding DataContext.ShowStockInfoCommand, 
                                                      RelativeSource={RelativeSource AncestorType=Window}}"
                                             CommandParameter="{Binding}"
                                             Margin="0,0,8,0"/>
-                                    <Button Content="+ Trade" Style="{StaticResource ActionButtonStyle}"/>
+                                    <Button Content="Trade" Style="{StaticResource ActionButtonStyle}"/>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

@@ -172,7 +172,7 @@
                                                 </TextBlock>
                                             </StackPanel>
 
-                                            <Button Content="👁 View Stock" 
+                                            <Button Content="View Stock" 
                                                     Style="{StaticResource ViewButtonStyle}"
                                                     Command="{Binding DataContext.ViewStockCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                     CommandParameter="{Binding}"/>
@@ -188,18 +188,10 @@
                                 VerticalAlignment="Center"
                                 Margin="0,40"
                                 Visibility="{Binding Positions.Count, Converter={StaticResource ZeroToVisibilityConverter}}">
-                        <TextBlock Text="📊" FontSize="48" 
-                                   HorizontalAlignment="Center" 
-                                   Margin="0,0,0,16"/>
                         <TextBlock Text="You don't own any stocks yet" 
                                    FontSize="18" 
                                    Foreground="{StaticResource TextSecondary}"
                                    HorizontalAlignment="Center"/>
-                        <TextBlock Text="Visit the Markets page to start trading" 
-                                   FontSize="14" 
-                                   Foreground="{StaticResource TextSecondary}"
-                                   HorizontalAlignment="Center"
-                                   Margin="0,8,0,0"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -346,9 +338,6 @@
                                 VerticalAlignment="Center"
                                 Margin="0,40"
                                 Visibility="{Binding Transactions.Count, Converter={StaticResource ZeroToVisibilityConverter}}">
-                        <TextBlock Text="📋" FontSize="48" 
-                                   HorizontalAlignment="Center" 
-                                   Margin="0,0,0,16"/>
                         <TextBlock Text="No transactions yet" 
                                    FontSize="18" 
                                    Foreground="{StaticResource TextSecondary}"

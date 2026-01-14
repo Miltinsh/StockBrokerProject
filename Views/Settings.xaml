@@ -12,7 +12,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Settings &amp; Data Management" FontSize="28" FontWeight="Bold" 
+        <TextBlock Text="Settings" FontSize="28" FontWeight="Bold" 
                    Foreground="{StaticResource TextPrimary}" Margin="0,0,0,24"/>
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
@@ -21,12 +21,10 @@
                 <Border Style="{StaticResource CardStyle}" Margin="0,0,0,24">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                            <TextBlock Text="📦" FontSize="24" Margin="0,0,12,0" VerticalAlignment="Center"/>
                             <StackPanel>
-                                <TextBlock Text="Complete Backup" FontSize="18" FontWeight="SemiBold" 
+                                <TextBlock Text="Full Backup" FontSize="18" FontWeight="SemiBold" 
                                            Foreground="{StaticResource TextPrimary}"/>
-                                <TextBlock Text="Export or import all your data in one file" 
-                                           FontSize="13" Foreground="{StaticResource TextSecondary}" Margin="0,4,0,0"/>
+
                             </StackPanel>
                         </StackPanel>
 
@@ -45,8 +43,7 @@
                                     HorizontalAlignment="Stretch"
                                     Padding="0,16">
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <TextBlock Text="📤" FontSize="16" Margin="0,0,8,0"/>
-                                    <TextBlock Text="Export Complete Backup" FontSize="14" FontWeight="SemiBold"/>
+                                    <TextBlock Text="Full Export" FontSize="14" FontWeight="SemiBold"/>
                                 </StackPanel>
                             </Button>
 
@@ -68,38 +65,20 @@
                                     </Style>
                                 </Button.Style>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <TextBlock Text="📥" FontSize="16" Margin="0,0,8,0"/>
-                                    <TextBlock Text="Import Complete Backup" FontSize="14" FontWeight="SemiBold"/>
+                                    <TextBlock Text="Full Import" FontSize="14" FontWeight="SemiBold"/>
                                 </StackPanel>
                             </Button>
                         </Grid>
 
-                        <!--<Border Background="#FFF9E6" CornerRadius="8" Padding="16" Margin="0,16,0,0"
-                                BorderBrush="#FFE0B2" BorderThickness="1">
-                            <StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                                    <TextBlock Text="💡" FontSize="16" Margin="0,0,8,0"/>
-                                    <TextBlock Text="Recommended Method" FontWeight="SemiBold" 
-                                               Foreground="{StaticResource TextPrimary}"/>
-                                </StackPanel>
-                                <TextBlock TextWrapping="Wrap" Foreground="{StaticResource TextSecondary}" FontSize="13">
-                                    Complete backup creates a ZIP file containing your portfolio, stock prices, and transaction history. 
-                                    This is the easiest way to backup and restore all your data at once.
-                                </TextBlock>
-                            </StackPanel>
-                        </Border>-->
                     </StackPanel>
                 </Border>
 
                 <Border Style="{StaticResource CardStyle}" Margin="0,0,0,24">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                            <TextBlock Text="📋" FontSize="24" Margin="0,0,12,0" VerticalAlignment="Center"/>
                             <StackPanel>
-                                <TextBlock Text="Individual Data Files" FontSize="18" FontWeight="SemiBold" 
+                                <TextBlock Text="Data File Export" FontSize="18" FontWeight="SemiBold" 
                                            Foreground="{StaticResource TextPrimary}"/>
-                                <TextBlock Text="Export or import specific data files separately" 
-                                           FontSize="13" Foreground="{StaticResource TextSecondary}" Margin="0,4,0,0"/>
                             </StackPanel>
                         </StackPanel>
 
@@ -115,16 +94,14 @@
                             <StackPanel Grid.Column="0" VerticalAlignment="Center">
                                 <TextBlock Text="Portfolio Data" FontWeight="SemiBold" FontSize="14"
                                            Foreground="{StaticResource TextPrimary}"/>
-                                <TextBlock Text="Positions &amp; cash balance" FontSize="12"
-                                           Foreground="{StaticResource TextSecondary}" Margin="0,2,0,0"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="2" Orientation="Horizontal">
-                                <Button Content="📤 Export" 
+                                <Button Content="Export" 
                                         Command="{Binding ExportPortfolioCommand}"
                                         Style="{StaticResource ViewButtonStyle}"
                                         Margin="0,0,8,0"/>
-                                <Button Content="📥 Import" 
+                                <Button Content="Import" 
                                         Command="{Binding ImportPortfolioCommand}"
                                         Style="{StaticResource ViewButtonStyle}"/>
                             </StackPanel>
@@ -142,16 +119,14 @@
                             <StackPanel Grid.Column="0" VerticalAlignment="Center">
                                 <TextBlock Text="Stock Prices" FontWeight="SemiBold" FontSize="14"
                                            Foreground="{StaticResource TextPrimary}"/>
-                                <TextBlock Text="Current market prices" FontSize="12"
-                                           Foreground="{StaticResource TextSecondary}" Margin="0,2,0,0"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="2" Orientation="Horizontal">
-                                <Button Content="📤 Export" 
+                                <Button Content="Export" 
                                         Command="{Binding ExportPricesCommand}"
                                         Style="{StaticResource ViewButtonStyle}"
                                         Margin="0,0,8,0"/>
-                                <Button Content="📥 Import" 
+                                <Button Content="Import" 
                                         Command="{Binding ImportPricesCommand}"
                                         Style="{StaticResource ViewButtonStyle}"/>
                             </StackPanel>
@@ -169,16 +144,14 @@
                             <StackPanel Grid.Column="0" VerticalAlignment="Center">
                                 <TextBlock Text="Transaction History" FontWeight="SemiBold" FontSize="14"
                                            Foreground="{StaticResource TextPrimary}"/>
-                                <TextBlock Text="Buy/sell trade records" FontSize="12"
-                                           Foreground="{StaticResource TextSecondary}" Margin="0,2,0,0"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="2" Orientation="Horizontal">
-                                <Button Content="📤 Export" 
+                                <Button Content="Export" 
                                         Command="{Binding ExportTransactionsCommand}"
                                         Style="{StaticResource ViewButtonStyle}"
                                         Margin="0,0,8,0"/>
-                                <Button Content="📥 Import" 
+                                <Button Content="Import" 
                                         Command="{Binding ImportTransactionsCommand}"
                                         Style="{StaticResource ViewButtonStyle}"/>
                             </StackPanel>

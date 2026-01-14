@@ -65,7 +65,6 @@ namespace StockBrokerProject.ViewModels
                 Transactions.Add(transaction);
             }
 
-            // Refresh summary stats
             OnPropertyChanged(nameof(TotalValue));
             OnPropertyChanged(nameof(TotalGainLoss));
             OnPropertyChanged(nameof(TotalGainLossPercent));
