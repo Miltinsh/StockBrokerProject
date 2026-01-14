@@ -29,6 +29,7 @@ namespace StockBrokerProject.ViewModels
                     OnPropertyChanged(nameof(IsDashboardActive));
                     OnPropertyChanged(nameof(IsPortfolioActive));
                     OnPropertyChanged(nameof(IsMarketsActive));
+                    OnPropertyChanged(nameof(IsSettingsActive));
                 }
             }
         }
@@ -49,10 +50,12 @@ namespace StockBrokerProject.ViewModels
         public DashboardViewModel DashboardVM { get; }
         public PortfolioViewModel PortfolioVM { get; }
         public OverviewViewModel OverviewVM { get; }
+        public SettingsViewModel SettingsVM { get; }
 
         public ICommand ShowDashboardCommand { get; }
         public ICommand ShowPortfolioCommand { get; }
         public ICommand ShowOverviewCommand { get; }
+        public ICommand ShowSettingsCommand { get; }
         public ICommand ShowStockInfoCommand { get; }
         public ICommand SaveDataCommand { get; }
         public ICommand ResetPortfolioCommand { get; }
@@ -60,6 +63,7 @@ namespace StockBrokerProject.ViewModels
         public bool IsDashboardActive => CurrentViewModel is DashboardViewModel;
         public bool IsPortfolioActive => CurrentViewModel is PortfolioViewModel;
         public bool IsMarketsActive => CurrentViewModel is OverviewViewModel;
+        public bool IsSettingsActive => CurrentViewModel is SettingsViewModel;
 
         public MainViewModel()
         {
@@ -71,6 +75,7 @@ namespace StockBrokerProject.ViewModels
             DashboardVM = new DashboardViewModel(_portfolio, _dataService);
             PortfolioVM = new PortfolioViewModel(_portfolio, this);
             OverviewVM = new OverviewViewModel(_dataService);
+            SettingsVM = new SettingsViewModel(_portfolio, _dataService, this);
 
             OverviewVM.MainViewModel = this;
 
@@ -82,6 +87,7 @@ namespace StockBrokerProject.ViewModels
             ShowDashboardCommand = new RelayCommand(_ => CurrentViewModel = DashboardVM);
             ShowPortfolioCommand = new RelayCommand(_ => CurrentViewModel = PortfolioVM);
             ShowOverviewCommand = new RelayCommand(_ => CurrentViewModel = OverviewVM);
+            ShowSettingsCommand = new RelayCommand(_ => CurrentViewModel = SettingsVM);
             ShowStockInfoCommand = new RelayCommand(param =>
             {
                 if (param is StockInfoViewModel stockVM)

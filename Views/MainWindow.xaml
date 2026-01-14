@@ -53,11 +53,26 @@
                         </Button.Style>
                     </Button>
                     <Button Content="☰ Markets" 
-                            Command="{Binding ShowOverviewCommand}">
+                            Command="{Binding ShowOverviewCommand}"
+                            Margin="0,0,8,0">
                         <Button.Style>
                             <Style TargetType="Button" BasedOn="{StaticResource NavButtonStyle}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsMarketsActive}" Value="True">
+                                        <Setter Property="Background" Value="#E8F4FF"/>
+                                        <Setter Property="Foreground" Value="{StaticResource PrimaryBlue}"/>
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button Content="⚙️ Settings" 
+                            Command="{Binding ShowSettingsCommand}">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource NavButtonStyle}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsSettingsActive}" Value="True">
                                         <Setter Property="Background" Value="#E8F4FF"/>
                                         <Setter Property="Foreground" Value="{StaticResource PrimaryBlue}"/>
                                         <Setter Property="FontWeight" Value="SemiBold"/>
