@@ -79,7 +79,6 @@ namespace StockBrokerProject.ViewModels
 
             OverviewVM.MainViewModel = this;
 
-            // Initial refresh of Portfolio after everything is initialized
             PortfolioVM.RefreshData();
 
             CurrentViewModel = DashboardVM;

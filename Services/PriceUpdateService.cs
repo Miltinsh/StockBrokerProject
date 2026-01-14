@@ -58,11 +58,11 @@ namespace StockBrokerProject.Services
         public string GetVolatilityDescription(int tier1, int tier2, int tier3)
         {
             if (tier3 > 0)
-                return $"🔥 RARE VOLATILITY (Tier 3: {tier1}-{tier2}-{tier3})";
+                return $"(Tier 3: {tier1}-{tier2}-{tier3})";
             else if (tier2 > 0)
-                return $"⚡ Medium Volatility (Tier 2: {tier1}-{tier2})";
+                return $"(Tier 2: {tier1}-{tier2})";
             else
-                return $"📊 Normal Volatility (Tier 1: {tier1})";
+                return $"W(Tier 1: {tier1})";
         }
 
         public Dictionary<string, decimal> UpdatePrices(Dictionary<string, decimal> currentPrices)

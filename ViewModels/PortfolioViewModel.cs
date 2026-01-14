@@ -40,17 +40,13 @@ namespace StockBrokerProject.ViewModels
             });
 
             _portfolio.PropertyChanged += (s, e) => RefreshData();
-
-            // Don't call RefreshData() in constructor - let MainViewModel call it after everything is initialized
         }
 
         public void RefreshData()
         {
-            // Safety check
             if (_mainViewModel?.OverviewVM?.Stocks == null)
                 return;
 
-            // Update positions
             Positions.Clear();
             foreach (var position in _portfolio.Positions)
             {
@@ -63,7 +59,6 @@ namespace StockBrokerProject.ViewModels
                 Positions.Add(new PositionViewModel(position));
             }
 
-            // Update transactions (show most recent first)
             Transactions.Clear();
             foreach (var transaction in _portfolio.TransactionHistory.OrderByDescending(t => t.DateTime))
             {

@@ -24,7 +24,6 @@
         </DataTemplate>
 
 
-        <!-- Color Definitions -->
         <SolidColorBrush x:Key="PrimaryBlue" Color="#4A90E2"/>
         <SolidColorBrush x:Key="PositiveGreen" Color="#00C853"/>
         <SolidColorBrush x:Key="NegativeRed" Color="#E53935"/>
@@ -34,7 +33,7 @@
         <SolidColorBrush x:Key="TextSecondary" Color="#7F8C8D"/>
         <SolidColorBrush x:Key="BorderLight" Color="#E0E0E0"/>
 
-        <!-- Button Styles -->
+        
         <Style x:Key="NavButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
@@ -115,7 +114,7 @@
             </Style.Triggers>
         </Style>
 
-        <!-- Card Style -->
+
         <Style x:Key="CardStyle" TargetType="Border">
             <Setter Property="Background" Value="{StaticResource CardWhite}"/>
             <Setter Property="CornerRadius" Value="12"/>

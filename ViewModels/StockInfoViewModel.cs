@@ -21,7 +21,6 @@ namespace StockBrokerProject.ViewModels
         private string _volume = string.Empty;
         private string _details = string.Empty;
         
-        // Trading properties
         private int _sharesToTrade = 1;
         private bool _isBuyMode = true;
 
@@ -87,7 +86,6 @@ namespace StockBrokerProject.ViewModels
             set { if (value != _details) { _details = value; OnPropertyChanged(nameof(Details)); } }
         }
 
-        // Trading properties
         public int SharesToTrade
         {
             get => _sharesToTrade;
@@ -126,7 +124,6 @@ namespace StockBrokerProject.ViewModels
             ? $"Buy {SharesToTrade} Share{(SharesToTrade > 1 ? "s" : "")}" 
             : $"Sell {SharesToTrade} Share{(SharesToTrade > 1 ? "s" : "")}";
 
-        // Position info
         public int SharesOwned
         {
             get
@@ -169,12 +166,10 @@ namespace StockBrokerProject.ViewModels
             }
         }
 
-        // Commands
         public ICommand ExecuteTradeCommand { get; }
         public ICommand SetBuyModeCommand { get; }
         public ICommand SetSellModeCommand { get; }
 
-        // Constructor without portfolio (for Markets view)
         public StockInfoViewModel() 
         {
             ExecuteTradeCommand = new RelayCommand(_ => { }, _ => false);
@@ -196,7 +191,6 @@ namespace StockBrokerProject.ViewModels
             _details = stock.Details;
         }
 
-        // Constructor with portfolio (for trading)
         public StockInfoViewModel(Stock stock, Portfolio portfolio, MainViewModel mainViewModel) : this(stock)
         {
             _portfolio = portfolio;
@@ -204,7 +198,6 @@ namespace StockBrokerProject.ViewModels
             
             ExecuteTradeCommand = new RelayCommand(_ => ExecuteTrade());
             
-            // Subscribe to portfolio changes to update position info
             if (_portfolio != null)
             {
                 _portfolio.PropertyChanged += (s, e) => RefreshPositionInfo();

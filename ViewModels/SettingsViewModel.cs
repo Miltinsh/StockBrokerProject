@@ -281,11 +281,9 @@ namespace StockBrokerProject.ViewModels
             {
                 try
                 {
-                    // Create a temporary directory for the files
                     string tempDir = Path.Combine(Path.GetTempPath(), "StockBrokerBackup_" + Guid.NewGuid());
                     Directory.CreateDirectory(tempDir);
 
-                    // Copy all files to temp directory
                     if (File.Exists("portfolio.json"))
                         File.Copy("portfolio.json", Path.Combine(tempDir, "portfolio.json"));
                     if (File.Exists("prices.json"))
@@ -293,10 +291,8 @@ namespace StockBrokerProject.ViewModels
                     if (File.Exists("transactions.json"))
                         File.Copy("transactions.json", Path.Combine(tempDir, "transactions.json"));
 
-                    // Create zip file
                     System.IO.Compression.ZipFile.CreateFromDirectory(tempDir, dialog.FileName);
 
-                    // Clean up temp directory
                     Directory.Delete(tempDir, true);
 
                     MessageBox.Show(
@@ -340,14 +336,11 @@ namespace StockBrokerProject.ViewModels
             {
                 try
                 {
-                    // Create temporary directory
                     string tempDir = Path.Combine(Path.GetTempPath(), "StockBrokerRestore_" + Guid.NewGuid());
                     Directory.CreateDirectory(tempDir);
 
-                    // Extract zip
                     System.IO.Compression.ZipFile.ExtractToDirectory(dialog.FileName, tempDir);
 
-                    // Copy files back
                     string portfolioFile = Path.Combine(tempDir, "portfolio.json");
                     string pricesFile = Path.Combine(tempDir, "prices.json");
                     string transactionsFile = Path.Combine(tempDir, "transactions.json");
@@ -359,7 +352,6 @@ namespace StockBrokerProject.ViewModels
                     if (File.Exists(transactionsFile))
                         File.Copy(transactionsFile, "transactions.json", true);
 
-                    // Clean up
                     Directory.Delete(tempDir, true);
 
                     MessageBox.Show(
